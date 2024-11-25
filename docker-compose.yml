@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: myapp-app
+    ports:
+      - "3000:3000" # Node.js chạy ở cổng 3000 bên trong container
+    volumes:
+      - ./app:/app # Đồng bộ mã nguồn để phát triển
+    networks:
+      - myapp-network
+
+  nginx:
+    image: nginx:latest
+    container_name: myapp-nginx
+    ports:
+      - "80:80" # Nginx chạy ở cổng 80 trên máy host
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro # Gắn file cấu hình Nginx
+    depends_on:
+      - app
+    networks:
+      - myapp-network
+
+networks:
+  myapp-network:
