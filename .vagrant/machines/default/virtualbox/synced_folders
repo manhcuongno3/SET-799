@@ -1,0 +1,1 @@
+{"virtualbox":{"/home/vagrant/myapp":{"guestpath":"/home/vagrant/myapp","hostpath":"E:/cpc/SET/JS/SET-799","disabled":false,"__vagrantfile":true},"/vagrant":{"guestpath":"/vagrant","hostpath":"E:/cpc/SET/JS/SET-799","disabled":false,"__vagrantfile":true}}}

@@ -38,30 +38,18 @@ Vagrant.configure("2") do |config|
     sudo systemctl enable docker
     sudo systemctl start docker
 
-    # Cài đặt Docker Compose
-    DOCKER_COMPOSE_VERSION="2.22.0"
-    sudo curl -L "https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-    sudo chmod +x /usr/local/bin/docker-compose
+   # Cài đặt Docker Compose
+   sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+   sudo chmod +x /usr/local/bin/docker-compose
 
-    # Cài đặt Nginx
-    sudo apt-get install -y nginx
-    sudo systemctl enable nginx
-    sudo systemctl start nginx
+   # Kiểm tra trạng thái dịch vụ
+   echo "Kiểm tra trạng thái các dịch vụ..."
+   sudo systemctl status docker || echo "Docker không chạy."
+   docker ps
+   docker-compose --version || echo "Docker Compose không cài đặt thành công."
 
-    # Kiểm tra và chạy thử Docker
-    echo "Kiểm tra Docker daemon..."
-    sudo systemctl status docker || (echo "Docker chưa chạy, khởi động lại..." && sudo systemctl start docker)
-
-    # Hiển thị các phiên bản đã cài đặt để kiểm tra
-    echo "===== Phiên bản đã cài đặt ====="
-    node -v
-    npm -v
-    docker --version
-    docker-compose --version
-    nginx -v
-
-    # Chạy một container thử nghiệm
-    echo "Chạy container thử nghiệm..."
-    docker run hello-world || echo "Docker chưa hoạt động đúng, vui lòng kiểm tra lại."
+    # Khởi chạy ứng dụng
+    cd myapp
+    docker-compose up --build
   SHELL
 end
